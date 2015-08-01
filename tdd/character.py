@@ -1,10 +1,32 @@
+class armor:
+	def __init__ (self):
+		self.value = 10 
+	
+	def get_value(self):
+		return self.value
+	
+	def set_value(self, value):
+		self.value = value
+
+
+
 class character():
 	def __init__(self):
 		self.name = 'Malokar Cienfuegos'
 		self.alignment = 'good'
-		self.armor = 10
 		self.HP = 5
-		
+		self.abilities = { 'Strength':-100, 'Dexterity':10, 'Constitution':10, 'Wisdom':10, 'Intelligence':10, 'Charisma': 10}
+		self.modified_roll = 0
+		self.armor = armor()
+		armor_value = self.armor.get_value()
+		self.armor.set_value(armor_value + self.abilities['Dexterity'])
+
+	def get_modified_roll(self, roll):
+		return min(20, roll + self.abilities['Strength']) 
+
+	def get_abilities(self):
+		return self.abilities
+
 	def set_name(self, name):
 		self.name = name
 
@@ -18,10 +40,10 @@ class character():
 		return self.alignment
 
 	def set_armor(self, armor):
-		self.armor = armor
+		self.armor.set_value(armor)
 
 	def get_armor(self):
-		return self.armor
+		return self.armor.get_value()
 
 	def set_HP(self, HP):
 		self.HP = HP
@@ -38,9 +60,9 @@ class character():
 
 	def damage(self, roll):
 		if roll == 20:
-			damage = 2
+			damage = max(1,2 + 2*self.abilities['Strength'])
 		else:
-			damage = 1
+			damage = max(1,1 + self.abilities['Strength'])
 		return damage
 
 	def attack(self, roll, opponent):
